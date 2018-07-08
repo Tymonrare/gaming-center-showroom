@@ -1,0 +1,5 @@
+{
+  "no_connection_to_master": "No connection to master server",
+  "machine_uncalibrated": "Machine not calibrated",
+  "calibration_instructions_text": "Some long instructions..&#010;</br>&#010;Really big text&#010;</br>"
+}
