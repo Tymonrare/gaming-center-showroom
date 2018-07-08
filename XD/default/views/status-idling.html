@@ -1,0 +1,55 @@
+<video
+    id="video-player"
+    class="video-js"
+    preload="auto"
+    poster="res/img/video-poster.png"
+    data-setup='{}'>
+  <p class="vjs-no-js">
+    To view this video please enable JavaScript, and consider upgrading to a
+    web browser that
+    <a href="http://videojs.com/html5-video-support/" target="_blank">
+      supports HTML5 video
+    </a>
+  </p>
+</video>
+<script>
+(function(){
+	var player = videojs('video-player');
+	var videos;
+	var videoIndex = 0;
+	
+	function playNext(){
+		var index = videoIndex++%videos.length;
+		var video = "res/videos/"+videos[index];
+		player.src(video);
+
+		player.ready(function() {
+			player.play();
+		});
+	}
+			
+
+	player.on('ended', function() {
+		playNext();
+	});
+
+	$.getJSON( "res/videos/list.json", function( data ) {
+			videos = data;
+			playNext();
+	});
+	
+	function resizeVideo(){
+		$("#video-player").css("height", window.innerHeight+"px");
+	}
+	
+	window.onresize = function(event) {
+		resizeVideo();
+	};
+	resizeVideo();
+})();
+</script>
+<style>
+#video-player{
+	width:100%;
+}
+</style>

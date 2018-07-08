@@ -1,0 +1,51 @@
+<div class="background-filler">
+</div>
+<div class="header-container">
+ <div class="row">
+    <div class="col-sm bindable">
+      Game: %v playing_game%
+	  </br>
+	  Time left: %v configured_playtime%
+    </div>
+    <div class="col-sm">
+      Important text here
+    </div>
+    <div class="col-sm">
+	  <h2 id="stop-btn-msg" style="color: red; display:none">Release red button</h2>
+	  <h2 id="start-btn-msg" style="display:none">Press green button</h2>
+	  <h2 id="starting-msg" style="display:none">Starting...</h2>
+    </div>
+  </div>
+</div>
+<div class="bindable page-info-container">
+Какая-то инфа по игре
+</div>
+
+<script>
+(function(){
+
+var stop = $("#stop-btn-msg");
+var start = $("#start-btn-msg");
+var start_msg = $("#starting-msg");
+
+setInterval(function(){
+	if(machineStatus.StopButton){
+		stop.css("display", "unset");
+		start.css("display", "none");
+	}
+	else{
+		stop.css("display", "none");
+		
+		if(!machineStatus.StartButton){
+			start.css("display", "unset");
+		}
+		else{
+			start.css("display", "none");
+			start_msg.css("display", "unset");
+		}
+	}
+	
+}, 100);
+
+})();
+</script>
