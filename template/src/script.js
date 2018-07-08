@@ -1,25 +1,31 @@
 (function(){
+	var _defaultView = "not_connected"
 	var statusViewName = null;
 	
 	var config;
 	window.machineStatus = {};
 
 	var bind = {
-		machine_status:"unconnected",
+		machine_status:"unconnected"
 	}
 	
-	window.main = function(){
+	window.main = function(){	
 		utils.bind.val.dynamic = bind;
 		utils.bind.defineDynamic();
-	
 		
 		$.getJSON( "res/config.json", function( data ) {
 			config = data;
 			startSockets();
 			
-			applyNewView(); //apply translation
+			loadView(_defaultView);
 		});
 	};
+	
+	function putStatusInfoInBinds(){
+		bind.machine_status = machineStatus.Status;
+		bind.playing_game = machineStatus.Game;
+		bind.configured_playtime = machineStatus.ConfiguredPlayTime;
+	}
 	
 	function startSockets(){
 		var socket = new WebSocket("ws://"+config.masterServerIp+"/status");
@@ -29,8 +35,8 @@
 			
 			if(msg.Status){
 				machineStatus = msg;
-				bind.machine_status = machineStatus.Status;
-				loadView(machineStatus.Status);
+				putStatusInfoInBinds();
+				loadStatusView(machineStatus.Status);
 			}
 			else
 				bind.machine_status = "unknown";
@@ -39,11 +45,19 @@
 		//spam reconnection
 		socket.onclose = function(){
 			setTimeout(startSockets, 1000);
+			bind.machine_status = "unconnected";
+			loadView(_defaultView);
 		}
 	}
 	
+	function loadStatusView(view){
+		loadView("status-"+view);
+	}
+	
 	function loadView(view){
-		$("#root").load("views/status-"+view+".html", function(responseText, textStatus, req){
+		if(statusViewName == view) return;
+		
+		$("#root").load("views/"+view+".html", function(responseText, textStatus, req){
 			if (textStatus == "error") return;
 
 			statusViewName = view;
