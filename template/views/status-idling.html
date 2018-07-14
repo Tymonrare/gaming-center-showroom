@@ -2,23 +2,23 @@
     id="video-player"
     class="video-js"
     preload="auto"
-    poster="res/img/video-poster.png"
+    poster="res/img/video-poster.jpeg"
     data-setup='{}'>
-  <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a
-    web browser that
-    <a href="http://videojs.com/html5-video-support/" target="_blank">
-      supports HTML5 video
-    </a>
-  </p>
 </video>
 <script>
+
 (function(){
 	var player = videojs('video-player');
 	var videos;
 	var videoIndex = 0;
 	
 	function playNext(){
+		if(machineStatus.Status != "idling") {
+			console.log("dispose player");
+			player.dispose();
+			return;
+		}
+		
 		var index = videoIndex++%videos.length;
 		var video = "res/videos/"+videos[index];
 		player.src(video);
@@ -27,8 +27,7 @@
 			player.play();
 		});
 	}
-			
-
+	
 	player.on('ended', function() {
 		playNext();
 	});
@@ -45,6 +44,17 @@
 	window.onresize = function(event) {
 		resizeVideo();
 	};
+	
+	function checkStatus(){
+		if(machineStatus.Status != "idling") {
+			console.log("dispose player");
+			player.dispose();
+			return;
+		}
+		else setTimeout(checkStatus, 100);
+	}
+	setTimeout(checkStatus, 100);
+	
 	resizeVideo();
 })();
 </script>

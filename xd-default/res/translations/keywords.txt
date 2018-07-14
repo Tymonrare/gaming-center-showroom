@@ -1,3 +1,16 @@
 no_connection_to_master
 machine_uncalibrated
 calibration_instructions_text
+game_stopped
+game_launching
+game
+game_stopped_instructions_text
+critical_error
+error_label_text
+error_instructions_text
+error_red_button_pressed_instructions_text
+time_left
+game_start_important_notes
+release_red_button
+press_green_button
+starting
