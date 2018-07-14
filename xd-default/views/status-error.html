@@ -1,0 +1,41 @@
+<div class="background-filler">
+</div>
+<div class="header-container">
+Типа совсем все поломалось
+</div>
+<div class="page-info-container">
+Какие-то инструкции
+
+<div id="red-btn-instructions" class="bindable">
+Похоже, нажата красная кнопка
+<ol type="1">
+  <li>Отожмите красную</li>
+  <li>Нажмите зеленую</li>
+  <li>Должно все стать ок</li>
+</ol>
+</div>
+</div>
+<i class="centred-message fas fa-cogs" style="font-size:20rem; color:grey;"></i>
+<i class="centred-message fas fa-exclamation" style="font-size:30rem; color:red;"></i>
+<h1 class="bindable centred-message">%c critical_error%</h1>
+
+<script>
+var _error_interval_id;
+(function(){
+
+if(_error_interval_id) clearInterval(_error_interval_id);
+
+var stop = $("#red-btn-instructions");
+
+_error_interval_id = setInterval(function(){
+	if(machineStatus.StopButton){
+		stop.css("display", "block");
+	}
+	else{
+	console.log("hide");
+		stop.css("display", "none");
+	}
+}, 100);
+
+})();
+</script>

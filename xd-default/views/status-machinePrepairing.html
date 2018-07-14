@@ -22,13 +22,16 @@
 </div>
 
 <script>
+var _prepairing_interval_id;
 (function(){
+
+if(_prepairing_interval_id) clearInterval(_prepairing_interval_id);
 
 var stop = $("#stop-btn-msg");
 var start = $("#start-btn-msg");
 var start_msg = $("#starting-msg");
 
-setInterval(function(){
+_prepairing_interval_id = setInterval(function(){
 	if(machineStatus.StopButton){
 		stop.css("display", "unset");
 		start.css("display", "none");
