@@ -321,8 +321,14 @@ static:
 		inner._raw_innerHTML = text;
 		inner.innerHTML = local.subtituteValsInText(text)
 		for(var k in text.values)
-			if(text.values[k].variable_name)
+			if(text.values[k].variable_name ){
+				if(!local.val.dynamic['_' + text.values[k].variable_name]){
+					console.log("Can't find val for:", '_' + text.values[k].variable_name);
+					continue;
+				}
 				local.val.dynamic['_' + text.values[k].variable_name].elements.push(inner);
+				
+			}
 	}
 
 	var genPointer = function(where, what, roundAt){

@@ -3,6 +3,7 @@ import socketserver
 import sys
 import os
 import json
+import configparser
 
 #====
 #update videos list
@@ -18,6 +19,19 @@ json_video_list = os.listdir(videos_dir)
 with open(json_video_list_file, 'w') as json_video_list_file:
     json.dump(json_video_list, json_video_list_file, sort_keys=True, indent=2, ensure_ascii=False, separators=(',', ': '))
 
+#===
+#load ini config
+config = configparser.ConfigParser()
+config.optionxform = str
+config.read('config.ini')
+
+data = {}
+for key in config['Global']:  
+	data[key] = config['Global'][key]
+
+with open('res/config.json', 'w') as outfile:
+    json.dump(data, outfile)
+	
 #====
 #start server
 PORT = 8000

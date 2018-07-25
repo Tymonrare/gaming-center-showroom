@@ -4,6 +4,7 @@ import sys
 import json
 import os
 import re
+import codecs
 
 # load file
 if(len(sys.argv) == 1):
@@ -11,7 +12,7 @@ if(len(sys.argv) == 1):
 else:
     print('Parse', sys.argv[1]);
 
-with open(sys.argv[1]) as f:
+with codecs.open(sys.argv[1], "r", "utf_8_sig" ) as f:
     content = f.readlines()
 content = [x.strip() for x in content]
 

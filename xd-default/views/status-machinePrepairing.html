@@ -7,18 +7,18 @@
 	  </br>
 	  %c time_left%: %v configured_playtime%
     </div>
-    <div class="col-sm">
-      %c game_start_important_notes%
+    <div class="col-sm bindable">
+      <h2>%c game_start_important_notes%</h2>
     </div>
     <div class="col-sm">
-	  <h2 id="stop-btn-msg" style="color: red; display:none">%c release_red_button%</h2>
-	  <h2 id="start-btn-msg" style="display:none">%c press_green_button%</h2>
-	  <h2 id="starting-msg" style="display:none">%c starting%...</h2>
+	  <h2 id="stop-btn-msg" class="bindable" style="color: red; display:none">%c release_red_button%</h2>
+	  <h2 id="start-btn-msg" class="bindable" style="display:none">%c press_green_button%</h2>
+	  <h2 id="starting-msg" class="bindable" style="display:none">%c starting%...</h2>
     </div>
   </div>
 </div>
-<div class="bindable page-info-container">
-
+<div style="font-size: 1rem;column-count: 3;column-gap: 5rem;padding: 2rem 3rem;" class="bindable page-info-container">
+%c game_instruction_legal_states%
 </div>
 
 <script>

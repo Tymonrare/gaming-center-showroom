@@ -14,3 +14,4 @@ game_start_important_notes
 release_red_button
 press_green_button
 starting
+game_instruction_legal_states

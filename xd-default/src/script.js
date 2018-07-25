@@ -27,6 +27,8 @@
 		bind.configured_playtime = machineStatus.ConfiguredPlayTime;
 	}
 	
+	var reconnectSocketTimeout;
+	
 	function startSockets(){
 		var socket = new WebSocket("ws://"+config.masterServerIp+"/status");
 		
@@ -44,7 +46,7 @@
 		
 		//spam reconnection
 		socket.onclose = function(){
-			setTimeout(startSockets, 1000);
+			reconnectSocketTimeout = setTimeout(startSockets, 1000);
 			bind.machine_status = "unconnected";
 			loadView(_defaultView);
 		}
@@ -66,7 +68,10 @@
 		window.scrollTo(0,0);
 	}
 	
-	window.dbg_loadView = loadView;
+	window.dbg_loadView = function(view){
+		clearTimeout(reconnectSocketTimeout);
+		loadView(view);
+	}
 
 	function applyNewView(){
 		$.getJSON("res/translations/" + config.language + ".json", function(data){
