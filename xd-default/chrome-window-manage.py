@@ -26,6 +26,7 @@ def connect():
 
 def on_message(ws, message):
 	data = json.loads(message)
+	global status
 	status = data["Status"]
 	print(message)
 
@@ -41,23 +42,26 @@ def on_open(ws):
     pass
 
 def window_move_thread():
+	global status
 	print("Send foreground")
 	while True:
 		time.sleep(1)
-		if status != "playing" and status != "gamePrepairing":
-			try:
-				window = find_window(title='XD Showroom')
-				win32gui.ShowWindow(window, win32con.SW_RESTORE)
-				win32gui.SetWindowPos(window,win32con.HWND_NOTOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)  
-				win32gui.SetWindowPos(window,win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)  
-				win32gui.SetWindowPos(window,win32con.HWND_NOTOPMOST, 0, 0, 0, 0, win32con.SWP_SHOWWINDOW + win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)
-				
-				pos = 333
-				win32api.SetCursorPos((pos,pos))
-				win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,pos,pos,0,0)
-				win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,pos,pos,0,0)
-			except:
-				pass
+		if status == "playing" or status == "gamePrepairing":
+			continue
+			
+		try:
+			window = find_window(title='XD Showroom')
+			win32gui.ShowWindow(window, win32con.SW_RESTORE)
+			win32gui.SetWindowPos(window,win32con.HWND_NOTOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)  
+			win32gui.SetWindowPos(window,win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)  
+			win32gui.SetWindowPos(window,win32con.HWND_NOTOPMOST, 0, 0, 0, 0, win32con.SWP_SHOWWINDOW + win32con.SWP_NOMOVE + win32con.SWP_NOSIZE)
+			
+			pos = 333
+			win32api.SetCursorPos((pos,pos))
+			win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,pos,pos,0,0)
+			win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,pos,pos,0,0)
+		except:
+			pass
 			#SetForegroundWindow()
 	
 	

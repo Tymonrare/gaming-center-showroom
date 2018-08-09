@@ -1,65 +1,82 @@
 <video
-    id="video-player"
-    class="video-js"
-    preload="auto"
-    poster="res/img/video-poster.jpeg"
-    data-setup='{}'>
+id="video-player"
+class="video-js"
+preload="auto"
+poster="res/img/video-poster.jpeg"
+data-setup='{}'>
 </video>
 <script>
 
 (function(){
-	var player = videojs('video-player');
-	var videos;
-	var videoIndex = 0;
-	
-	function playNext(){
-		if(machineStatus.Status != "idling") {
-			console.log("dispose player");
-			player.dispose();
-			return;
-		}
-		
-		var index = videoIndex++%videos.length;
-		var video = "res/videos/"+videos[index];
-		player.src(video);
+    try{
+      var player = videojs('video-player');
+      var videos;
+      var videoIndex = 0;
 
-		player.ready(function() {
-			player.play();
-		});
-	}
-	
-	player.on('ended', function() {
-		playNext();
-	});
+      function playNext(){
+        if(machineStatus.Status != "idling") {
+          console.log("dispose player");
+          player.dispose();
+          return;
+        }
 
-	$.getJSON( "res/videos/list.json", function( data ) {
-			videos = data;
-			playNext();
-	});
-	
-	function resizeVideo(){
-		$("#video-player").css("height", window.innerHeight+"px");
-	}
-	
-	window.onresize = function(event) {
-		resizeVideo();
-	};
-	
-	function checkStatus(){
-		if(machineStatus.Status != "idling") {
-			console.log("dispose player");
-			player.dispose();
-			return;
-		}
-		else setTimeout(checkStatus, 100);
-	}
-	setTimeout(checkStatus, 100);
-	
-	resizeVideo();
+        var index = videoIndex++%videos.length;
+        var video = "res/videos/"+videos[index];
+        player.src(video);
+
+        player.ready(function() {
+          player.play();
+        });
+
+      }
+
+      player.on('ended', function() {
+        playNext();
+      });
+      player.on('error', function(err) {
+        console.error(err);
+        setTimeout(function(){
+          player.dispose();
+          dbg_loadView("status-idling");
+        }, 3000);
+      });
+
+      $.getJSON( "res/videos/list.json", function( data ) {
+        videos = data;
+        playNext();
+      });
+
+      function resizeVideo(){
+        $("#video-player").css("height", window.innerHeight+"px");
+      }
+
+      window.onresize = function(event) {
+        resizeVideo();
+      };
+
+      function checkStatus(){
+        if(machineStatus.Status != "idling") {
+          console.log("dispose player");
+          player.dispose();
+          return;
+        }
+        else setTimeout(checkStatus, 100);
+      }
+      setTimeout(checkStatus, 100);
+
+      resizeVideo();
+    }
+    catch(err){
+      console.error(err);
+      setTimeout(function(){
+          player.dispose();
+          dbg_loadView("status-idling");
+        }, 3000);
+    }
 })();
 </script>
 <style>
 #video-player{
-	width:100%;
+  width:100%;
 }
 </style>
