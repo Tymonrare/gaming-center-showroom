@@ -1,7 +1,7 @@
 set port=8000
 
-start /b "" python -m chrome-window-manage
-start /b "" python -m server.py %port%
+start "" python -m chrome-window-manage
+start "" python -m server.py %port%
 
 :: cd "%LocalAppData%\Google\Chrome\Application\"
 :: cd "C:\Program Files (x86)\Google\Chrome\Application\"

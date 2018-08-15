@@ -43,7 +43,6 @@ def on_open(ws):
 
 def window_move_thread():
 	global status
-	print("Send foreground")
 	while True:
 		time.sleep(1)
 		if status == "playing" or status == "gamePrepairing":
@@ -66,5 +65,6 @@ def window_move_thread():
 	
 	
 if __name__ == "__main__":
+	print("Begin XD Showroom window forwarding")
 	thread.start_new_thread(window_move_thread, ())
 	connect()

@@ -6,7 +6,7 @@
 	window.machineStatus = {};
 
 	var bind = {
-		machine_status:"unconnected"
+		machine_status:"not_connected"
 	}
 
 	window.main = function(){
@@ -47,7 +47,7 @@
 		//spam reconnection
 		socket.onclose = function(){
 			reconnectSocketTimeout = setTimeout(startSockets, 1000);
-			bind.machine_status = "unconnected";
+			bind.machine_status = "not_connected";
 			loadView(_defaultView);
 		}
 	}
